@@ -1,124 +1,180 @@
-import L00_p00_t00 from "./l00_p00_t00";
-import L01_p01_t00 from "./l01_p01_t00";
-import L01_p01_t01 from "./l01_p01_t01";
-import L01_p01_t02 from "./l01_p01_t02";
-import L01_p01_t03 from "./l01_p01_t03";
-import L01_p02_t00 from "./l01_p02_t00";
-import L01_p03_t00 from "./l01_p03_t00";
-import L02_p01_t00 from "./l02_p01_t00";
-import L02_p01_t01 from "./l02_p01_t01";
-import L02_p01_t02 from "./l02_p01_t02";
-import L03_p01_t01 from "./l03_p01_t00";
-import L03_p02_t01 from "./l03_p02_t00";
+import Menu1_Child1_Content1 from './Menu1_Child1_Content1';
+import Menu1_Child2_Content1 from './Menu1_Child2_Content1';
+import Menu1_Child3_Content1 from './Menu1_Child3_Content1';
+import Menu1_Child3_Content2 from './Menu1_Child3_Content2';
+import Menu1_Child4_Content1 from './Menu1_Child4_Content1';
+import Menu1_Child5_Content1 from './Menu1_Child5_Content1';
+import Menu1_Child5_Content2 from './Menu1_Child5_Content2';
+import Menu1_Child6_Content1 from './Menu1_Child6_Content1';
+import Menu1_Child7_Content1 from './Menu1_Child7_Content1';
+import Menu1_Child7_Content2 from './Menu1_Child7_Content2';
+import Menu2_Child1_Content1 from './Menu2_Child1_Content1';
+import Menu2_Child1_Content2 from './Menu2_Child1_Content2';
+import Menu2_Child1_Content3 from './Menu2_Child1_Content3';
+import Menu2_Child1_Content4 from './Menu2_Child1_Content4';
+import Menu2_Child2_Content1 from './Menu2_Child2_Content1';
 
 export const list = [
     {
-        label: 'Кіріспе',
-        value: 'l00_p00_t00',
-        subList: []
-    },
-    {
-        label: 'Дәріс #1',
-        value: 'l01_p00_t00',
+        label: 'Тілдің негіздері',
+        value: 'Menu1_Child0_Content0',
         subList: [
             {
-                label: 'Бөлім #1',
-                value: 'l01_p01_t00',
-                subList: []
-            },
-            {
-                label: 'Бөлім #2',
-                value: 'l01_p02_t00',
-                subList: []
-            },
-            {
-                label: 'Бөлім #3',
-                value: 'l01_p03_t00',
-                subList: []
-            },
-            {
-                label: 'Дәріс бойынша тапсырмалар',
-                value: 'l01_p01_task',
+                label: 'Python бағдарламалау тілімен танысу және бағдарламалауды қамтамасыз ету',
+                value: 'Menu1_Child1_Content0',
                 subList: [
                     {
-                        label: 'Тапсырма #1',
-                        value: 'l01_p01_t01',
+                        label: 'Python бағдарламалау тілімен танысу',
+                        value: 'Menu1_Child1_Content1',
                         subList: []
                     },
-                    {
-                        label: 'Тапсырма #2',
-                        value: 'l01_p01_t02',
-                        subList: []
-                    },
-                    {
-                        label: 'Тапсырма #3',
-                        value: 'l01_p01_t03',
-                        subList: []
-                    }
                 ]
-            }
-        ]
-    },
-    {
-        label: 'Дәріс #2',
-        value: 'l02_p00_t00',
-        subList: [
-            {
-                label: 'Бөлім #1',
-                value: 'l02_p01_t00',
-                subList: []
             },
             {
-                label: 'Дәріс бойынша тапсырмалар',
-                value: 'l02_p01_task',
+                label: 'Бірінші бағдарлама',
+                value: 'Menu1_Child2_Content0',
                 subList: [
                     {
-                        label: 'Тапсырма #1',
-                        value: 'l02_p01_t01',
+                        label: 'Мәліметтер енгізу, өңдеу және шығару print() функциясы',
+                        value: 'Menu1_Child2_Content1',
+                        subList: []
+                    },
+                ]
+            },
+            {
+                label: 'Деректер түрлері, мәндері, айнамалылары және атаулары',
+                value: 'Menu1_Child3_Content0',
+                subList: [
+                    {
+                        label: 'Типтер, мәліметтер - литералдар',
+                        value: 'Menu1_Child3_Content1',
                         subList: []
                     },
                     {
-                        label: 'Тапсырма #2',
-                        value: 'l02_p01_t02',
+                        label: 'Меншіктеу, бірнеше есімдерді меншіктеу',
+                        value: 'Menu1_Child3_Content2',
                         subList: []
-                    }
+                    },
                 ]
-            }
+            },
+            {
+                label: 'Сандық типтер',
+                value: 'Menu1_Child4_Content0',
+                subList: [
+                    {
+                        label: 'Бүтін сандар, нақты сандар және логикалық мәндерге қолданылатын математикалық операциялар',
+                        value: 'Menu1_Child4_Content1',
+                        subList: []
+                    },
+                ]
+            },
+            {
+                label: 'Мәтін жолдары',
+                value: 'Menu1_Child5_Content0',
+                subList: [
+                    {
+                        label: 'Тырнақша көмегімен жолдарды құру',
+                        value: 'Menu1_Child5_Content1',
+                        subList: []
+                    },
+                    {
+                        label: 'Жолдарға қолданылатын амалдар және өңдеуге арналған функциялар',
+                        value: 'Menu1_Child5_Content2',
+                        subList: []
+                    },
+                ]
+            },
+            {
+                label: 'Шартты операторлар if...else',
+                value: 'Menu1_Child6_Content0',
+                subList: [
+                    {
+                        label: 'if, elif, else... операторларының көмегімен салыстыру',
+                        value: 'Menu1_Child6_Content1',
+                        subList: []
+                    },
+                ]
+            },
+            {
+                label: 'while және for көмегімен қайталау операторларын құру',
+                value: 'Menu1_Child7_Content0',
+                subList: [
+                    {
+                        label: 'while циклінің көмегімен әрекеттерді қайталау',
+                        value: 'Menu1_Child7_Content1',
+                        subList: []
+                    },
+                    {
+                        label: 'for және шт кілт сөздерін қолданып итерация жасау',
+                        value: 'Menu1_Child7_Content2',
+                        subList: []
+                    },
+                ]
+            },
         ]
     },
     {
-        label: 'Дәріс #3',
-        value: 'l03_p00_t00',
+        label: 'Функциялар, кортеждер, тізімдер, сөздіктер және жиындар',
+        value: 'Menu2_Child0_Content0',
         subList: [
             {
-                label: 'Бөлім #1',
-                value: 'l03_p01_t00',
-                subList: []
+                label: 'Тізімдер, сөздіктер, кортеждер, жиындар',
+                value: 'Menu2_Child1_Content0',
+                subList: [
+                    {
+                        label: 'Тізімдер',
+                        value: 'Menu2_Child1_Content1',
+                        subList: []
+                    },
+                    {
+                        label: 'Сөздіктер',
+                        value: 'Menu2_Child1_Content2',
+                        subList: []
+                    },
+                    {
+                        label: 'Кортеждер',
+                        value: 'Menu2_Child1_Content3',
+                        subList: []
+                    },
+                    {
+                        label: 'Жиындар',
+                        value: 'Menu2_Child1_Content4',
+                        subList: []
+                    },
+                ]
             },
             {
-                label: 'Бөлім #2',
-                value: 'l03_p02_t00',
-                subList: []
-            }
+                label: 'Функция',
+                value: 'Menu2_Child2_Content0',
+                subList: [
+                    {
+                        label: 'Функция',
+                        value: 'Menu2_Child2_Content1',
+                        subList: []
+                    },]
+            },
         ]
-    }
+    },
 ];
 
 function Content({content, ...props}){
     switch(content){
-        case  'l00_p00_t00': return <L00_p00_t00/>;
-        case  'l01_p01_t00': return <L01_p01_t00/>;
-        case  'l01_p01_t01': return <L01_p01_t01/>;
-        case  'l01_p01_t02': return <L01_p01_t02/>;
-        case  'l01_p01_t03': return <L01_p01_t03/>;
-        case  'l01_p02_t00': return <L01_p02_t00/>;
-        case  'l01_p03_t00': return <L01_p03_t00/>;
-        case  'l02_p01_t00': return <L02_p01_t00/>;
-        case  'l02_p01_t01': return <L02_p01_t01/>;
-        case  'l02_p01_t02': return <L02_p01_t02/>;
-        case  'l03_p01_t01': return <L03_p01_t01/>;
-        case  'l03_p02_t01': return <L03_p02_t01/>;
-        default: return <L00_p00_t00/>;
+        case  'Menu1_Child1_Content1': return <Menu1_Child1_Content1/>;
+        case  'Menu1_Child2_Content1': return <Menu1_Child2_Content1/>;
+        case  'Menu1_Child3_Content1': return <Menu1_Child3_Content1/>;
+        case  'Menu1_Child3_Content2': return <Menu1_Child3_Content2/>;
+        case  'Menu1_Child4_Content1': return <Menu1_Child4_Content1/>;
+        case  'Menu1_Child5_Content1': return <Menu1_Child5_Content1/>;
+        case  'Menu1_Child5_Content2': return <Menu1_Child5_Content2/>;
+        case  'Menu1_Child6_Content1': return <Menu1_Child6_Content1/>;
+        case  'Menu1_Child7_Content1': return <Menu1_Child7_Content1/>;
+        case  'Menu1_Child7_Content2': return <Menu1_Child7_Content2/>;
+        case  'Menu2_Child1_Content1': return <Menu2_Child1_Content1/>;
+        case  'Menu2_Child1_Content2': return <Menu2_Child1_Content2/>;
+        case  'Menu2_Child1_Content3': return <Menu2_Child1_Content3/>;
+        case  'Menu2_Child1_Content4': return <Menu2_Child1_Content4/>;
+        case  'Menu2_Child2_Content1': return <Menu2_Child2_Content1/>;
+        default: return <Menu1_Child1_Content1/>;
     }
 }
 

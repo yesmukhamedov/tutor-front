@@ -48,14 +48,7 @@ function App({...props}) {
         <span>{listElement.label}</span>
       </Menu.Item>
   ))
-/*
 
-element.style {
-    border: 1px solid;
-    padding: 5px;
-    border-radius: 24px;
-    margin: 10px;
-*/
   console.log(state)
   return (
     <>
@@ -71,10 +64,7 @@ element.style {
                     unCheckedChildren="түн" 
                     defaultChecked 
                     onChange={bool=>setState({...state, userInfo: {...state.userInfo, theme: bool? 'light' : 'dark'}})}
-                  /> 
-                  <a onClick={()=>drawer('account')}>
-                    Ескендір
-                  </a>
+                  />
                   <a onClick={()=>drawer('login')}>
                     Жүйеге кіру
                   </a>
