@@ -18,7 +18,7 @@
 
 .light {
     color: black;
-    background-color: azure;
+    background-color: white;
 }
 
 .light table tr td {
@@ -39,7 +39,7 @@
 }
 
 .content img {
-    width: 60%;
+    width: 30%;
 }
 
 .darkHeader {
@@ -49,7 +49,7 @@
 
 .lightHeader {
     color: black;
-    background-color: azure;
+    background-color: white;
 }
 
 .darkFooter {
@@ -59,6 +59,6 @@
 
 .lightFooter {
     color: black;
-    background-color: azure;
+    background-color: white;
     border-top: 1px solid  #d7d7df;
 }
