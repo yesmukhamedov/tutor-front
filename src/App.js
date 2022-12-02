@@ -50,6 +50,14 @@ function App({...props}) {
       </Menu.Item>
   ))
 
+  const title = list => list.find(lit=>
+    lit.subList.length
+      ? title(lit.subList) 
+      : lit.value === state.content
+        ? true
+        : false 
+  )?.label;
+
   console.log(state)
 
   const theme = state.userInfo.theme;
@@ -256,7 +264,7 @@ function App({...props}) {
             paddingLeft: 42,
           }}
         >
-          99
+          {title(list)}
         </Header>
         <div >
           <Content

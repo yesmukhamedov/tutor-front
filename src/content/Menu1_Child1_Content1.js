@@ -7,12 +7,11 @@ import Menu1_Child1_Content1_Image5 from '../assets/images/Menu1_Child1_Content1
 import Menu1_Child1_Content1_Image6 from '../assets/images/Menu1_Child1_Content1_Image6.png'
 import Menu1_Child1_Content1_Image7 from '../assets/images/Menu1_Child1_Content1_Image7.png'
 
-import './style.css';
 //let Menu1_Child1_Content1_Image1 = 'https://sun9-66.userapi.com/impg/Ny5SECXQyZHS3gPTa4HVtI2ma2fW_YHBEQcp3Q/7xTCPCWYg6k.jpg?size=456x517&quality=95&sign=013a18b96ef1a449722531f19bcc9899&c_uniq_tag=pr2pUeKapQFdNxcwhIo2Tzi20yM39H7sWk_tGyH3iFc&type=album';
 
 const Menu1_Child1_Content1 = () => {
     return (
-        <div className='body'>
+        <>
             <b>Python бағдарламалау тілімен танысу</b>
             <b>Жоспар:</b>
             <ol>
@@ -118,7 +117,7 @@ const Menu1_Child1_Content1 = () => {
                 <li>Стенли Липпман - Язык программирования C++. Базовый курс. Изд.:5-е. Вильямс, 2017. 1120 с.</li>
                 <li>Бьярне Страуструп - Программирование. Принципы и практика с использованием C++. Изд.:2-е. Вильямс, 2016. 1328 с.</li>
             </ol>
-        </div>
+        </>
     )
 }
 
