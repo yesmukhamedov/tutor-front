@@ -42,7 +42,7 @@ function App({...props}) {
 
   const menu = list => list.map(listElement=>(
     listElement.subList.length
-    ? <Menu.SubMenu title={<span>{listElement.label}</span>}>
+    ? <Menu.SubMenu key={listElement.value} title={<span>{listElement.label}</span>}>
         {menu(listElement.subList)}
       </Menu.SubMenu>
     : <Menu.Item key={listElement.value}>
@@ -50,7 +50,7 @@ function App({...props}) {
       </Menu.Item>
   ))
 
-  const title = list => list.find(lit=>
+  const title = list => list.map(lit=>
     lit.subList.length
       ? title(lit.subList) 
       : lit.value === state.content
@@ -88,7 +88,7 @@ function App({...props}) {
                     width={320}
                     closable={false}
                     onClose={()=>drawer('login')}
-                    visible={state.drawer.login}
+                    open={state.drawer.login}
                   >
                     <Form
                       name="basic"
@@ -150,7 +150,7 @@ function App({...props}) {
                       width={520}
                       closable={false}
                       onClose={()=>drawer('register')}
-                      visible={state.drawer.register}
+                      open={state.drawer.register}
                     >
                       <Form
                         name="basic"
@@ -253,6 +253,7 @@ function App({...props}) {
             theme={theme}
             onClick={any=>setState({...state, content: any.key})}
             mode="inline"
+            defaultOpenKeys={['Menu1_Child0_Content0', 'Menu2_Child0_Content0']}
           >
             {menu(list)}
           </Menu>
@@ -301,7 +302,7 @@ function App({...props}) {
             placement={'bottom'}
             height={650}
             onClose={()=>drawer('account')}
-            visible={state.drawer.account}
+            open={state.drawer.account}
           >
             <Row>
               <Col span={6}>
