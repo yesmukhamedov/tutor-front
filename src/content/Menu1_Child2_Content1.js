@@ -1,4 +1,5 @@
 import React from 'react';
+import './style.css';
 
 const Menu1_Child2_Content1 = () => {
     return (

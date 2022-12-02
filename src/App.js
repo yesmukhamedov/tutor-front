@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, Row, Col, Switch, Drawer, Button, Form, Input, Select, Divider, Steps, Affix, Progress, Tag, Image } from 'antd';
 import Multimedia, { list } from './content';
+import './style.css';
 const { Sider, Content, Header, Footer } = Layout;
 const { Step } = Steps;
 const { Option } = Select;
@@ -50,6 +51,9 @@ function App({...props}) {
   ))
 
   console.log(state)
+
+  const theme = state.userInfo.theme;
+
   return (
     <>
       <div style={{backgroundColor: 'rgb(247 247 249)', minHeight: 55, display: 'flex', alignItems: 'center'}}>
@@ -65,6 +69,9 @@ function App({...props}) {
                     defaultChecked 
                     onChange={bool=>setState({...state, userInfo: {...state.userInfo, theme: bool? 'light' : 'dark'}})}
                   />
+                  {/* <a onClick={()=>drawer('account')}>
+                    Ескендір
+                  </a> */}
                   <a onClick={()=>drawer('login')}>
                     Жүйеге кіру
                   </a>
@@ -226,7 +233,7 @@ function App({...props}) {
       </div>
       <Layout>
         <Sider 
-        theme={state.userInfo.theme}
+        theme={theme}
         width={256}
         >
           <Image
@@ -235,7 +242,7 @@ function App({...props}) {
           />
           <Menu 
             style={{marginTop: 28}}
-            theme={state.userInfo.theme}
+            theme={theme}
             onClick={any=>setState({...state, content: any.key})}
             mode="inline"
           >
@@ -244,22 +251,26 @@ function App({...props}) {
         </Sider>
         <Layout>
         <Header
+          className={`${theme}Header`}
           style={{
             paddingLeft: 42,
-            background: state.userInfo.theme==='dark'? 'rgb(0 21 41)' : '#fff'
           }}
         >
           99
         </Header>
+        <div >
           <Content
+          className={`${theme} content`}
             style={{
-              margin: '24px 16px',
-              padding: 24,
+              padding: '48px 40px 24px 24px',
               minHeight: window.innerHeight-285,
             }}
           >
-            <Multimedia content={state.content}/>
-            <div style={{
+            <Multimedia 
+              className={`${theme}Multimedia`}
+              content={state.content}
+            />
+            {/* <div style={{
                 margin: '20px 0',
                 marginBottom: '20px',
                 padding: '30px 50px',
@@ -267,7 +278,7 @@ function App({...props}) {
                 borderRadius: '4px',
             }}>
             <Spin />
-            </div>
+            </div> */}
             {/* <div style={{display: 'flex', width: '100%'}}>
               {[0, 1].includes(state.content.lesson)? null : <a style={{}}>{'< Алдыңғы бөлім'}</a>}
               {[0].includes(state.content.lesson)? <a>Үйреніп бастау</a> : <a>{'Келесі бөлім >'}</a>}
@@ -276,6 +287,7 @@ function App({...props}) {
               <Button>120px to affix top</Button>
             </Affix> */}
           </Content>
+          </div>
           <Drawer
             title={"Есмухамедов Ескендір"}
             placement={'bottom'}
@@ -326,8 +338,8 @@ function App({...props}) {
               </Col>
             </Row>
           </Drawer>
-          <Divider />
           <Footer
+          className={`${theme}Footer`}
           style={{
             textAlign: 'center',
           }}
