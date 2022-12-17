@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 import {
   UserOutlined,
   FacebookOutlined,
@@ -39,6 +40,20 @@ function App({...props}) {
   function drawer(element){
     setState({...state, drawer: {...state.drawer, [element]: !state.drawer[element]}})
   }
+
+  // React.useEffect(()=>{
+  //   axios.post('http://localhost:53917/api/auth/signin', {username: '09', password: '08'})
+  //       .then(response => console.log(response.data));
+  // }, [])
+
+  // React.useEffect(()=>{
+  //   axios.post(`http://localhost:57313/api/auth/signup/` + 'user', {
+  //     username: '09', 
+  //     email: '09', 
+  //     password: '08'
+  //   })
+  //       .then(response => console.log(response.data));
+  // }, [])
 
   const menu = list => list.map(listElement=>(
     listElement.subList.length
