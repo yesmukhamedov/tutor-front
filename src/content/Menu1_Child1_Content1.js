@@ -12,7 +12,7 @@ import Menu1_Child1_Content1_Image7 from '../assets/images/Menu1_Child1_Content1
 const Menu1_Child1_Content1 = () => {
     return (
         <>
-            <b>Python бағдарламалау тілімен танысу</b>
+            <p><b>Python бағдарламалау тілімен танысу</b></p>
             <b>Жоспар:</b>
             <ol>
                 <li>Python тілінің алфавиті және синтаксисі.</li>

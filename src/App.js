@@ -1,6 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import axios from 'axios';
+import axios from './axios';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import {
   UserOutlined,
   FacebookOutlined,
@@ -9,13 +12,38 @@ import {
   YoutubeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, Row, Col, Switch, Drawer, Button, Form, Input, Select, Divider, Steps, Affix, Progress, Tag, Image } from 'antd';
+// import 'antd/dist/antd.min.css';//antd/dist/antd.min.css
+// import 'antd/dist/antd.less';
+
 import Multimedia, { list } from './content';
 import './style.css';
+import { fetchQuiz, fetchCollection, add, update, remove } from './redux/slices/tests';
+import { fetchAuth, fetchRegister, fetchAuthMe } from './redux/slices/auth';
 const { Sider, Content, Header, Footer } = Layout;
 const { Step } = Steps;
 const { Option } = Select;
 
 function App({...props}) {
+
+  const {} = useParams();
+  const dispatch = useDispatch();
+  const {quiz, collection} = useSelector(state => state.tests);
+  const isQuizLoading = quiz.status === "loading";
+  const isCollectionLoading = collection.status === "loading";
+
+  const {register, handleSubmit, setError, formState: {errors, isValid}} = useForm({
+    defaultValues: {
+      email: '',
+      password: ''
+    },
+  });
+
+  const onSubmit = (values) => {
+    console.log(values)
+  }
+  // {(isTestsLoading> [...Array(5)] : tests.items).map((obj, index)=>isTestsLoading? (
+  //   <Test scelet key={index} isLoading={true}> : <Test real/>
+  // ))}
 
   const [state, setState] = React.useState({
     userInfo: {
@@ -41,19 +69,10 @@ function App({...props}) {
     setState({...state, drawer: {...state.drawer, [element]: !state.drawer[element]}})
   }
 
-  // React.useEffect(()=>{
-  //   axios.post('http://localhost:53917/api/auth/signin', {username: '09', password: '08'})
-  //       .then(response => console.log(response.data));
-  // }, [])
-
-  // React.useEffect(()=>{
-  //   axios.post(`http://localhost:57313/api/auth/signup/` + 'user', {
-  //     username: '09', 
-  //     email: '09', 
-  //     password: '08'
-  //   })
-  //       .then(response => console.log(response.data));
-  // }, [])
+  React.useEffect(()=>{
+    dispatch(fetchAuth({email: 'prepod02@gmail.com', password: '12345678'}));
+    // dispatch(fetchQuiz({collectionName: 'quiz01', count: 10}));
+  }, [])
 
   const menu = list => list.map(listElement=>(
     listElement.subList.length
@@ -100,10 +119,11 @@ function App({...props}) {
                   </a>
                   <Drawer
                     title="Жүйеге қосылу"
-                    width={320}
+                    width={500}
+                    placement="right"
                     closable={false}
                     onClose={()=>drawer('login')}
-                    open={state.drawer.login}
+                    visible={state.drawer.login}
                   >
                     <Form
                       name="basic"
@@ -165,7 +185,7 @@ function App({...props}) {
                       width={520}
                       closable={false}
                       onClose={()=>drawer('register')}
-                      open={state.drawer.register}
+                      visible={state.drawer.register}
                     >
                       <Form
                         name="basic"
@@ -294,7 +314,7 @@ function App({...props}) {
               className={`${theme}Multimedia`}
               content={state.content}
             />
-            {/* <div style={{
+            <div style={{
                 margin: '20px 0',
                 marginBottom: '20px',
                 padding: '30px 50px',
@@ -302,14 +322,14 @@ function App({...props}) {
                 borderRadius: '4px',
             }}>
             <Spin />
-            </div> */}
-            {/* <div style={{display: 'flex', width: '100%'}}>
-              {[0, 1].includes(state.content.lesson)? null : <a style={{}}>{'< Алдыңғы бөлім'}</a>}
-              {[0].includes(state.content.lesson)? <a>Үйреніп бастау</a> : <a>{'Келесі бөлім >'}</a>}
             </div>
-            <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)} style={{ position: 'absolute', top: 250, left: 350 }}>
-              <Button>120px to affix top</Button>
-            </Affix> */}
+            {/* <div style={{display: 'flex', width: '100%'}}>
+              {[0, 1].includes(state.content.lesson)? null : <a style={{position: 'absolute', top: 50, right: 50}}>{'< Алдыңғы бөлім'}</a>}
+              {[0].includes(state.content.lesson)? <a>Үйреніп бастау</a> : <a>{'Келесі бөлім >'}</a>}
+            </div> */}
+            <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)} style={{ position: 'absolute', top: 250, right: 50 }}>
+              <Button shape="circle" size='large'>^</Button>
+            </Affix>
           </Content>
           </div>
           <Drawer
@@ -317,7 +337,7 @@ function App({...props}) {
             placement={'bottom'}
             height={650}
             onClose={()=>drawer('account')}
-            open={state.drawer.account}
+            visible={state.drawer.account}
           >
             <Row>
               <Col span={6}>
