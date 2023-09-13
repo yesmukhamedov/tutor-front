@@ -11,14 +11,15 @@ import {
   TwitterOutlined,
   YoutubeOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Spin, Row, Col, Switch, Drawer, Button, Form, Input, Select, Divider, Steps, Affix, Progress, Tag, Image } from 'antd';
+import { Layout, Menu, Spin, Row, Col, Switch, Drawer, Button, Form, Input, Select, Divider, Steps, Affix, Progress, Tag, Image, Space } from 'antd';
 // import 'antd/dist/antd.min.css';//antd/dist/antd.min.css
 // import 'antd/dist/antd.less';
+import { notice } from "./components/notification.js";
 
 import Multimedia, { list } from './content';
 import './style.css';
-import { fetchQuiz, fetchCollection, add, update, remove } from './redux/slices/tests';
-import { fetchAuth, fetchRegister, fetchAuthMe } from './redux/slices/auth';
+import { fetchQuiz } from './redux/slices/tests';
+import { login, logout, register, authMe } from './redux/slices/auth';
 const { Sider, Content, Header, Footer } = Layout;
 const { Step } = Steps;
 const { Option } = Select;
@@ -27,52 +28,44 @@ function App({...props}) {
 
   const {} = useParams();
   const dispatch = useDispatch();
-  const {quiz, collection} = useSelector(state => state.tests);
-  const isQuizLoading = quiz.status === "loading";
-  const isCollectionLoading = collection.status === "loading";
 
-  const {register, handleSubmit, setError, formState: {errors, isValid}} = useForm({
-    defaultValues: {
-      email: '',
-      password: ''
-    },
-  });
+  const {quiz, user} = useSelector(state => ({quiz: state.tests.quiz, user: state.auth.user}));
 
-  const onSubmit = (values) => {
-    console.log(values)
-  }
-  // {(isTestsLoading> [...Array(5)] : tests.items).map((obj, index)=>isTestsLoading? (
-  //   <Test scelet key={index} isLoading={true}> : <Test real/>
-  // ))}
+  React.useEffect(()=>dispatch(authMe()), []);
+
+  React.useEffect(()=>user?.token && window.localStorage.setItem("token", user.token), [user]);
+  React.useEffect(()=>setState({...state, user: user? {...state.user, ...user} : {theme: 'light'}}), [user]);
 
   const [state, setState] = React.useState({
-    userInfo: {
-      theme: 'light'
+    user: {
+      theme: 'light',
+      ...user
     },
     drawer: {
       account: false,
       login: false,
       register: false
     },
-    content: ''
+    content: '',
+    form: {
+      login: {
+        email: '',
+        password: ''
+      },
+      register: {
+        fullName: '',
+        email: '',
+        supervisorId: '',
+        password: ''
+      }
+    }
   });
 
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  console.log('state=>', state);
 
   function drawer(element){
     setState({...state, drawer: {...state.drawer, [element]: !state.drawer[element]}})
   }
-
-  React.useEffect(()=>{
-    dispatch(fetchAuth({email: 'prepod02@gmail.com', password: '12345678'}));
-    // dispatch(fetchQuiz({collectionName: 'quiz01', count: 10}));
-  }, [])
 
   const menu = list => list.map(listElement=>(
     listElement.subList.length
@@ -82,7 +75,7 @@ function App({...props}) {
     : <Menu.Item key={listElement.value}>
         <span>{listElement.label}</span>
       </Menu.Item>
-  ))
+  ));
 
   const title = list => list.map(lit=>
     lit.subList.length
@@ -92,12 +85,12 @@ function App({...props}) {
         : false 
   )?.label;
 
-  console.log(state)
+  const setForm = (formName, prop, value) => setState({...state, form: {...state.form, [formName]: {...state.form[formName], [prop]: value}}});
 
-  const theme = state.userInfo.theme;
-
+  // console.log(notice);
   return (
     <>
+      {notice()}
       <div style={{backgroundColor: 'rgb(247 247 249)', minHeight: 55, display: 'flex', alignItems: 'center'}}>
           <Row  style={{width: '100%'}}>
               <Col span={2}><></></Col>
@@ -109,14 +102,18 @@ function App({...props}) {
                     checkedChildren="күн" 
                     unCheckedChildren="түн" 
                     defaultChecked 
-                    onChange={bool=>setState({...state, userInfo: {...state.userInfo, theme: bool? 'light' : 'dark'}})}
+                    onChange={bool=>setState({...state, user: {...state.user, theme: bool? 'light' : 'dark'}})}
                   />
-                  {/* <a onClick={()=>drawer('account')}>
-                    Ескендір
-                  </a> */}
-                  <a onClick={()=>drawer('login')}>
+                  {state.user?.fullName? <a onClick={state.user?.supervisor? ()=>drawer('account') : () => {
+                  if (window.confirm("Жүйеден шығуды қалайсызба?")) {
+                      dispatch(logout());
+                      window.localStorage.removeItem("token");
+                  }
+              }}>
+                    {state.user?.fullName}
+                  </a> : <a onClick={()=>drawer('login')}>
                     Жүйеге кіру
-                  </a>
+                  </a>}
                   <Drawer
                     title="Жүйеге қосылу"
                     width={500}
@@ -136,21 +133,19 @@ function App({...props}) {
                       initialValues={{
                         remember: true,
                       }}
-                      onFinish={onFinish}
-                      onFinishFailed={onFinishFailed}
                       autoComplete="off"
                     >
                       <Form.Item
-                        label="Қолданушы аты"
-                        name="username"
+                        label="Электронды почта"
+                        name="email"
                         rules={[
                           {
                             required: true,
-                            message: 'Өтініш, қолданушы атын көрсетіңіз!',
+                            message: 'Өтініш, электронды почтаны енгізіңіз!',
                           },
                         ]}
                       >
-                        <Input />
+                        <Input onChange={e=>setForm('login', 'email', e.target.value)}/> 
                       </Form.Item>
                       <Form.Item
                         label="Құпия сөз"
@@ -162,7 +157,7 @@ function App({...props}) {
                           },
                         ]}
                       >
-                        <Input.Password />
+                        <Input.Password  onChange={e=>setForm('login', 'password', e.target.value)}/>
                       </Form.Item>
                       <Form.Item
                         wrapperCol={{
@@ -171,7 +166,10 @@ function App({...props}) {
                         }}
                       >
                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                          <Button type="primary" htmlType="submit">
+                          <Button type="primary" htmlType="submit" onClick={()=>{
+                            dispatch(login(state.form.login));
+                            drawer('login');
+                          }}>
                             Кіру
                           </Button>
                           <Button type="primary" onClick={()=>drawer('register')}>
@@ -198,13 +196,11 @@ function App({...props}) {
                         initialValues={{
                           remember: true,
                         }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                         autoComplete="off"
                       >
                       <Form.Item
                         label="Қолданушы аты"
-                        name="username"
+                        name="fullName"
                         rules={[
                           {
                             required: true,
@@ -212,7 +208,7 @@ function App({...props}) {
                           },
                         ]}
                       >
-                        <Input prefix={<UserOutlined />}/>
+                        <Input prefix={<UserOutlined />} onChange={e=>setForm('register', 'fullName', e.target.value)}/>
                       </Form.Item>
                       <Form.Item
                         label="Электронды почта"
@@ -224,13 +220,19 @@ function App({...props}) {
                           },
                         ]}
                       >
-                        <Input 
-                          addonAfter={
-                            <Select defaultValue={"@gmail.com"} style={{width: 120}}>
-                              <Option value={"@gmail.com"}>@gmail.com</Option>
-                              <Option value={"@mail.ru"}>@mail.ru</Option>
-                            </Select>}
-                        />
+                        <Input onChange={e=>setForm('register', 'email', e.target.value)}/>
+                      </Form.Item>
+                      <Form.Item
+                        label="Мұғалім коды"
+                        name="supervisorId"
+                        rules={[
+                          {
+                            required: false,
+                            // message: 'Өтініш, электронды почтаны көрсетіңіз!',
+                          },
+                        ]}
+                      >
+                        <Input onChange={e=>setForm('register', 'supervisorId', e.target.value)}/>
                       </Form.Item>
                       <Form.Item
                         label="Құпия сөз"
@@ -242,9 +244,9 @@ function App({...props}) {
                           },
                         ]}
                       >
-                        <Input.Password />
+                        <Input.Password  onChange={e=>setForm('register', 'password', e.target.value)}/>
                       </Form.Item>
-                      <Form.Item
+                      {/* <Form.Item
                         label="Құпия сөз"
                         name="password"
                         rules={[
@@ -254,15 +256,23 @@ function App({...props}) {
                           },
                         ]}
                       >
-                        <Input.Password />
-                      </Form.Item>
+                        <Input.Password  onChange={e=>setForm('register', 'password', e.target.value)}/>
+                      </Form.Item> */}
                       <Form.Item
                         wrapperCol={{
                           offset: 8,
                           span: 16,
                         }}
                       >
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" 
+                        onClick={()=>{
+                            dispatch(register({
+                              ...state.form.register,
+                              supervisorId: state.form.register.supervisorId !== '' ? state.form.register.supervisorId : null,
+                            }));
+                            drawer('register');
+                          }}
+                          >
                           Тіркелу
                         </Button>
                       </Form.Item>
@@ -276,7 +286,7 @@ function App({...props}) {
       </div>
       <Layout>
         <Sider 
-        theme={theme}
+        theme={state.user.theme}
         width={256}
         >
           <Image
@@ -285,17 +295,19 @@ function App({...props}) {
           />
           <Menu 
             style={{marginTop: 28}}
-            theme={theme}
+            theme={state.user.theme}
             onClick={any=>setState({...state, content: any.key})}
             mode="inline"
             defaultOpenKeys={['Menu1_Child0_Content0', 'Menu2_Child0_Content0']}
           >
-            {menu(list)}
+            {[...menu(list), <Menu.Item key={'admin Panel'}>
+        <span>{'admin Panel'}</span>
+      </Menu.Item>]}
           </Menu>
         </Sider>
         <Layout>
         <Header
-          className={`${theme}Header`}
+          className={`${state.user.theme}Header`}
           style={{
             paddingLeft: 42,
           }}
@@ -304,14 +316,14 @@ function App({...props}) {
         </Header>
         <div >
           <Content
-          className={`${theme} content`}
+          className={`${state.user.theme} content`}
             style={{
               padding: '48px 40px 24px 24px',
               minHeight: window.innerHeight-285,
             }}
           >
             <Multimedia 
-              className={`${theme}Multimedia`}
+              className={`${state.user.theme}Multimedia`}
               content={state.content}
             />
             <div style={{
@@ -327,16 +339,31 @@ function App({...props}) {
               {[0, 1].includes(state.content.lesson)? null : <a style={{position: 'absolute', top: 50, right: 50}}>{'< Алдыңғы бөлім'}</a>}
               {[0].includes(state.content.lesson)? <a>Үйреніп бастау</a> : <a>{'Келесі бөлім >'}</a>}
             </div> */}
-            <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)} style={{ position: 'absolute', top: 250, right: 50 }}>
-              <Button shape="circle" size='large'>^</Button>
+            <Affix offsetTop={120} 
+              // onChange={(affixed) => console.log(affixed)}
+              style={{ position: 'absolute', top: 250, right: 50 }}>
+              <Button shape="circle" size='large' onClick={()=>window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'})}>^</Button>
             </Affix>
           </Content>
           </div>
           <Drawer
-            title={"Есмухамедов Ескендір"}
+            title={`${state.user?.fullName} (${state.user?.email})`}
             placement={'bottom'}
             height={650}
             onClose={()=>drawer('account')}
+            extra={<Space>
+              <a onClick={() => {
+                  if (window.confirm("Жүйеден шығуды қалайсызба?")) {
+                      dispatch(logout());
+                      drawer('account');
+                      window.localStorage.removeItem("token");
+                  }
+              }}>
+                Жүйеден шығу
+              </a>
+            </Space>}
             visible={state.drawer.account}
           >
             <Row>
@@ -383,7 +410,7 @@ function App({...props}) {
             </Row>
           </Drawer>
           <Footer
-          className={`${theme}Footer`}
+          className={`${state.user.theme}Footer`}
           style={{
             textAlign: 'center',
           }}

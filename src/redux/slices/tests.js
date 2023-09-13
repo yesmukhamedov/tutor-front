@@ -5,7 +5,7 @@ export const fetchQuiz = createAsyncThunk(
     "quiz/fetchQuiz", async params => await axios.get(`/quiz/${params.collectionName}/${params.count}`).data);
 
 export const fetchCollection = createAsyncThunk(
-    "collection/fetchCollection", async collectionName => await axios.get(`collection/${collectionName}`).data);
+    "collection/fetchCollection", async collectionName => await axios.get(`collection/${collectionName}`));
 
 export const add = createAsyncThunk(
     "test/add", async () => await axios.post('/test').data);
@@ -50,7 +50,7 @@ const testsSlice = createSlice({
             state.collection.status = "loading";
           },
         [fetchCollection.fulfilled]: (state, action) => {
-            state.collection.items = action.payload;
+            state.collection.items = action.payload.data;
             state.collection.status = "loaded";
         },
         [fetchCollection.rejected]: state=>{

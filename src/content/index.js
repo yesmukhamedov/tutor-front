@@ -1,3 +1,5 @@
+import React from 'react';
+import AdminPanel from '../AdminPanel';
 import Menu1_Child1_Content1 from './Menu1_Child1_Content1';
 import Menu1_Child2_Content1 from './Menu1_Child2_Content1';
 import Menu1_Child3_Content1 from './Menu1_Child3_Content1';
@@ -174,6 +176,7 @@ function Content({content, ...props}){
         case  'Menu2_Child1_Content3': return <Menu2_Child1_Content3/>;
         case  'Menu2_Child1_Content4': return <Menu2_Child1_Content4/>;
         case  'Menu2_Child2_Content1': return <Menu2_Child2_Content1/>;
+        case  'admin Panel': return <AdminPanel/>;
         default: return <Menu1_Child1_Content1/>;
     }
 }

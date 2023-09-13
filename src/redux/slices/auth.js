@@ -1,76 +1,67 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchAuth = createAsyncThunk("auth/fetchAuth", async (params) => {
-    const { data } = await axios.post("/login", params);
-    return data;
-});
+export const login = createAsyncThunk(
+    "/login", 
+    async params => (await axios.post("/login", params)).data);
 
-export const fetchRegister = createAsyncThunk(
-    "auth/fetchRegister",
-    async (params) => {
-        const { data } = await axios.post("/register", params);
-        return data;
-    }
-);
+export const register = createAsyncThunk(
+    "/register",
+    async params => (await axios.post("/register", params)).data);
 
-export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
-    const { data } = await axios.get("/auth/me");
-    return data;
-});
-
-const initialState = {
-    data: null,
-    status: "loading",
-};
+export const authMe = createAsyncThunk(
+    "/authMe", async () => (await axios.get("/auth/me")).data);
 
 const authSlice = createSlice({
     name: "auth",
-    initialState,
+    initialState: {
+        user: null,
+        status: "loading",
+    },
     reducers: {
         logout: (state) => {
-            state.data = null;
+            state.user = null;
         },
     },
     extraReducers: {
         // Login
-        [fetchAuth.pending]: (state) => {
+        [login.pending]: (state) => {
             state.status = "loading";
-            state.data = null;
+            state.user = null;
         },
-        [fetchAuth.fulfilled]: (state, action) => {
+        [login.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.data = action.payload;
+            state.user = action.payload;
         },
-        [fetchAuth.rejected]: (state) => {
+        [login.rejected]: (state) => {
             state.status = "error";
-            state.data = null;
+            state.user = null;
         },
         // Register
-        [fetchRegister.pending]: (state) => {
+        [register.pending]: (state) => {
             state.status = "loading";
-            state.data = null;
+            state.user = null;
         },
-        [fetchRegister.fulfilled]: (state, action) => {
+        [register.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.data = action.payload;
+            state.user = action.payload;
         },
-        [fetchRegister.rejected]: (state) => {
+        [register.rejected]: (state) => {
             state.status = "error";
-            state.data = null;
+            state.user = null;
         },
         // Get me
-        [fetchAuthMe.pending]: (state) => {
+        [authMe.pending]: (state) => {
             state.status = "loading";
-            state.data = null;
+            state.user = null;
         },
-        [fetchAuthMe.fulfilled]: (state, action) => {
+        [authMe.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.data = action.payload;
+            state.user = action.payload;
         },
-        [fetchAuthMe.rejected]: (state) => {
+        [authMe.rejected]: (state, action) => {
             state.status = "error";
-            state.data = null;
+            state.user = null;
         },
     },
 });
