@@ -31,7 +31,7 @@ const authSlice = createSlice({
         },
         [login.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.user = action.payload;
+            state.user = action.payload.user;
         },
         [login.rejected]: (state) => {
             state.status = "error";
@@ -44,7 +44,7 @@ const authSlice = createSlice({
         },
         [register.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.user = action.payload;
+            state.user = action.payload.user;
         },
         [register.rejected]: (state) => {
             state.status = "error";
@@ -57,7 +57,7 @@ const authSlice = createSlice({
         },
         [authMe.fulfilled]: (state, action) => {
             state.status = "loaded";
-            state.user = action.payload;
+            state.user = action.payload.user;
         },
         [authMe.rejected]: (state, action) => {
             state.status = "error";

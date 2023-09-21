@@ -12,9 +12,6 @@ import {
   YoutubeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, Row, Col, Switch, Drawer, Button, Form, Input, Select, Divider, Steps, Affix, Progress, Tag, Image, Space } from 'antd';
-// import 'antd/dist/antd.min.css';//antd/dist/antd.min.css
-// import 'antd/dist/antd.less';
-import { notice } from "./components/notification.js";
 
 import Multimedia, { list } from './content';
 import './style.css';
@@ -87,10 +84,8 @@ function App({...props}) {
 
   const setForm = (formName, prop, value) => setState({...state, form: {...state.form, [formName]: {...state.form[formName], [prop]: value}}});
 
-  // console.log(notice);
   return (
     <>
-      {notice()}
       <div style={{backgroundColor: 'rgb(247 247 249)', minHeight: 55, display: 'flex', alignItems: 'center'}}>
           <Row  style={{width: '100%'}}>
               <Col span={2}><></></Col>
@@ -166,10 +161,7 @@ function App({...props}) {
                         }}
                       >
                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                          <Button type="primary" htmlType="submit" onClick={()=>{
-                            dispatch(login(state.form.login));
-                            drawer('login');
-                          }}>
+                          <Button type="primary" htmlType="submit" onClick={()=>{dispatch(login(state.form.login)); drawer('login');}}>
                             Кіру
                           </Button>
                           <Button type="primary" onClick={()=>drawer('register')}>
@@ -265,13 +257,16 @@ function App({...props}) {
                         }}
                       >
                         <Button type="primary" htmlType="submit" 
-                        onClick={()=>{
-                            dispatch(register({
+                        onClick={()=>{dispatch(register({
                               ...state.form.register,
                               supervisorId: state.form.register.supervisorId !== '' ? state.form.register.supervisorId : null,
-                            }));
-                            drawer('register');
-                          }}
+                            })
+                            // .unwrap().then(result=>{
+                            //   if(result.payload && result.payload.user){
+                            //     drawer('register');
+                            //   } 
+                            // })
+                            ); drawer('register');}}
                           >
                           Тіркелу
                         </Button>
