@@ -2,7 +2,7 @@
   "name": "tutor",
   "version": "0.1.0",
   "engines": {
-    "node": "16.13.2",
+    "node": "18.10.0",
     "npm": "8.1.2"
   },
   "private": true,
@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.21.7",
     "axios": "^1.5.0",
+    "bcrypt": "^5.1.1",
     "mongoose": "^7.5.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
