@@ -24,7 +24,11 @@ instance.interceptors.response.use(
           description: <ul>{error.response.data.map(message=><li>{message.msg}</li>)}</ul>
         });
       }
+      if(error.response.data?.status.type){
       notification[error.response.data.status.type](error.response.data.status);
+      } else {
+        notification.error({message: 'Сұрау орындалмады', description: 'Сервермен байланыс орнатылмады'});
+      }
       return Promise.reject(error);
     }
   );
