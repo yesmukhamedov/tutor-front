@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Col, Row, Input, Checkbox, Button, Card } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import Tree from './components/tree/tree';
 
 import { fetchCollection, add, update, remove } from './redux/slices/tests.js';
 const AdminPanel = () => {
@@ -17,6 +16,7 @@ const AdminPanel = () => {
   React.useEffect(()=>{
     // dispatch(login({email: 'prepod02@gmail.com', password: '12345678'}));
     // dispatch(fetchQuiz({collectionName: 'quiz01', count: 10}));
+    console.log('nono')
   }, []);
 
     const [state, setState] = React.useState({

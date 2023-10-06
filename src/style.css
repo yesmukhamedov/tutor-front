@@ -26,7 +26,7 @@
     padding: 5px;
 }
 
-.content div {
+.content > div:not(.editor div) {
     display: flex;
     justify-content: center;
     align-items: center;

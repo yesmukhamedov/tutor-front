@@ -28,10 +28,10 @@ function App({...props}) {
 
   const {quiz, user} = useSelector(state => ({quiz: state.tests.quiz, user: state.auth.user}));
 
-  React.useEffect(()=>dispatch(authMe()), []);
+  React.useEffect(()=>{dispatch(authMe())}, []);
 
-  React.useEffect(()=>user?.token && window.localStorage.setItem("token", user.token), [user]);
-  React.useEffect(()=>setState({...state, user: user? {...state.user, ...user} : {theme: 'light'}}), [user]);
+  React.useEffect(()=>{user?.token && window.localStorage.setItem("token", user.token)}, [user]);
+  React.useEffect(()=>{setState({...state, user: user? {...state.user, ...user} : {theme: 'light'}})}, [user]);
 
   const [state, setState] = React.useState({
     user: {
