@@ -32,6 +32,12 @@
     align-items: center;
     flex-direction: column;
 }
+.content > div:not(.test div) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
 .content p {
     text-indent: 25px;
@@ -61,4 +67,13 @@
     color: black;
     background-color: white;
     border-top: 1px solid  #d7d7df;
+}
+
+.ant-space-item{
+    width: 100% !important;
+}
+.ant-checkbox-wrapper{
+    display: flex;
+    align-items: center;
+    margin-top:-7px;
 }

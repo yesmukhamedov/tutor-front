@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axios';
 
 export const fetchQuiz = createAsyncThunk(
-    "quiz/fetchQuiz", async params => await axios.get(`/quiz/${params.collectionName}/${params.count}`).data);
+    "quiz/fetchQuiz", async params => await axios.get(`/quiz/${params.collectionName}/${params.count}`));
 
 export const fetchCollection = createAsyncThunk(
     "collection/fetchCollection", async collectionName => await axios.get(`collection/${collectionName}`));
 
 export const add = createAsyncThunk(
-    "test/add", async () => await axios.post('/test').data);
+    "test/add", async form => await axios.post('/test', form).data);
 
 export const update = createAsyncThunk(
-    "test/update", async id => await axios.patch(`/test/${id}`).data);
+    "test/update", async form => await axios.patch(`/test/${form._id}`, form).data);
 
 export const remove = createAsyncThunk(
     "test/remove", async id => await axios.delete(`/test/${id}`));
@@ -38,7 +38,7 @@ const testsSlice = createSlice({
             state.quiz.status = 'loading';
         },
         [fetchQuiz.fulfilled]: (state, action)=>{
-            state.quiz.items = action.payload;
+            state.quiz.items = action.payload.data;
             state.quiz.status = 'loaded';
         },
         [fetchQuiz.rejected]: state=>{
@@ -46,7 +46,7 @@ const testsSlice = createSlice({
             state.quiz.status = 'error';
         },
         [fetchCollection.pending]: state=>{
-            state.collection.items = [];
+            state.collection.items = state.collection.items;
             state.collection.status = "loading";
           },
         [fetchCollection.fulfilled]: (state, action) => {

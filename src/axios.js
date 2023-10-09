@@ -14,6 +14,7 @@ instance.interceptors.request.use(config => {
 
 instance.interceptors.response.use(
     response => {
+      if(response.data.status)
       notification[response.data.status.type](response.data.status);
       return response;
     },
