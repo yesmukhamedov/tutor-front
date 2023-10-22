@@ -1,15 +1,22 @@
 import React from 'react';
-import Menu1_Child1_Content1_Image1 from '../assets/images/Menu1_Child1_Content1_Image1.png'
-import Menu1_Child1_Content1_Image2 from '../assets/images/Menu1_Child1_Content1_Image2.png'
-import Menu1_Child1_Content1_Image3 from '../assets/images/Menu1_Child1_Content1_Image3.png'
-import Menu1_Child1_Content1_Image4 from '../assets/images/Menu1_Child1_Content1_Image4.png'
-import Menu1_Child1_Content1_Image5 from '../assets/images/Menu1_Child1_Content1_Image5.png'
-import Menu1_Child1_Content1_Image6 from '../assets/images/Menu1_Child1_Content1_Image6.png'
-import Menu1_Child1_Content1_Image7 from '../assets/images/Menu1_Child1_Content1_Image7.png'
+// import Menu1_Child1_Content1_Image1 from '../assets/images/Menu1_Child1_Content1_Image1.png'
+// import Menu1_Child1_Content1_Image2 from '../assets/images/Menu1_Child1_Content1_Image2.png'
+// import Menu1_Child1_Content1_Image3 from '../assets/images/Menu1_Child1_Content1_Image3.png'
+// import Menu1_Child1_Content1_Image4 from '../assets/images/Menu1_Child1_Content1_Image4.png'
+// import Menu1_Child1_Content1_Image5 from '../assets/images/Menu1_Child1_Content1_Image5.png'
+// import Menu1_Child1_Content1_Image6 from '../assets/images/Menu1_Child1_Content1_Image6.png'
+// import Menu1_Child1_Content1_Image7 from '../assets/images/Menu1_Child1_Content1_Image7.png'
 
 //let Menu1_Child1_Content1_Image1 = 'https://sun9-66.userapi.com/impg/Ny5SECXQyZHS3gPTa4HVtI2ma2fW_YHBEQcp3Q/7xTCPCWYg6k.jpg?size=456x517&quality=95&sign=013a18b96ef1a449722531f19bcc9899&c_uniq_tag=pr2pUeKapQFdNxcwhIo2Tzi20yM39H7sWk_tGyH3iFc&type=album';
 
 const Menu1_Child1_Content1 = () => {
+const Menu1_Child1_Content1_Image1 = '../assets/images/Menu1_Child1_Content1_Image1.png'
+const Menu1_Child1_Content1_Image2 = '../assets/images/Menu1_Child1_Content1_Image2.png'
+const Menu1_Child1_Content1_Image3 = '../assets/images/Menu1_Child1_Content1_Image3.png'
+const Menu1_Child1_Content1_Image4 = '../assets/images/Menu1_Child1_Content1_Image4.png'
+const Menu1_Child1_Content1_Image5 = '../assets/images/Menu1_Child1_Content1_Image5.png'
+const Menu1_Child1_Content1_Image6 = '../assets/images/Menu1_Child1_Content1_Image6.png'
+const Menu1_Child1_Content1_Image7 = '../assets/images/Menu1_Child1_Content1_Image7.png'
     return (
         <>
             <p><b>Python бағдарламалау тілімен танысу</b></p>

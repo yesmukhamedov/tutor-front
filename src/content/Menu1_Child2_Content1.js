@@ -1,10 +1,11 @@
 import React from 'react';
 import Editor from '../components/Editor';
-import Menu1_Child2_Content1_Image1 from '../assets/images/Menu1_Child2_Content1_Image1.png';
+// import Menu1_Child2_Content1_Image1 from '../assets/images/Menu1_Child2_Content1_Image1.png';
 import PieceEditor from '../components/PieceEditor';
 
 const Menu1_Child2_Content1 = () => {
-    
+  const Menu1_Child2_Content1_Image1 = '../assets/images/Menu1_Child2_Content1_Image1.png';
+ 
     return (
       <>
         <p><b>Python бағдарламаларын жазу және сақтау</b></p>
