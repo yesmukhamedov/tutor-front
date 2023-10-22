@@ -1,1 +1,2 @@
-web: node --max-old-space-size=512 server.js
+web: npm start
+web: node --max-old-space-size=512 index.js
