@@ -56,7 +56,7 @@ const Test = (test) => {
               />
               <div style={{marginTop:10, display:'flex', flexDirection:'row-reverse', justifyContent:'space-between'}}>
                 <Button
-                  // disabled={!(state.form.collectionName && state.form.text && state.form.options?.reducer((truth, o)=>o.truth || truth, false))}
+                  disabled={!(state.form.collectionName && state.form.text && state.form.options?.reduce((truth, option)=>(option.truth || truth), false))}
                   onClick={() => {
                     if (state.form._id) {
                       dispatch(update(state.form));
@@ -175,7 +175,7 @@ const Test = (test) => {
                         ...state.form,
                         _id: item._id,
                         text: item.text,
-                        options: item.options,
+                        options: item.options.map(option=>({_id: option._id, text: option.text, truth: option.truth})),
                       },
                     })
                   }
