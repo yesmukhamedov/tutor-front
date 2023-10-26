@@ -219,63 +219,59 @@ export const list = user => [
                     {
                         label: 'Тізімдер',
                         value: 'Menu2_Child1_Content1',
-                        subList: [  
-                            ...user?._id? user?.supervisor? [{
-                                label: 'Тақырып бойынша білім тексеру',
-                                value: 'Menu2_Child1_Content1_Quiz1',
-                                subList: []
-                            }] : [{
-                                label: 'Тақырып бойынша тесттерді дайындау',
-                                value: 'Menu2_Child1_Content1_Quiz1',
-                                subList: []
-                            }] : []
-                        ]
+                        subList: []
                     },
+                    ...user?._id? user?.supervisor? [{
+                        label: 'Тақырып бойынша білім тексеру',
+                        value: 'Menu2_Child1_Content1_Quiz1',
+                        subList: []
+                    }] : [{
+                        label: 'Тақырып бойынша тесттерді дайындау',
+                        value: 'Menu2_Child1_Content1_Quiz1',
+                        subList: []
+                    }] : [],
                     {
                         label: 'Сөздіктер',
                         value: 'Menu2_Child1_Content2',
-                        subList: [
-                            ...user?._id? user?.supervisor? [{
-                                label: 'Тақырып бойынша білім тексеру',
-                                value: 'Menu2_Child1_Content2_Quiz1',
-                                subList: []
-                            }] : [{
-                                label: 'Тақырып бойынша тесттерді дайындау',
-                                value: 'Menu2_Child1_Content2_Quiz1',
-                                subList: []
-                            }] : []
-                        ]
+                        subList: []
                     },
+                    ...user?._id? user?.supervisor? [{
+                        label: 'Тақырып бойынша білім тексеру',
+                        value: 'Menu2_Child1_Content2_Quiz1',
+                        subList: []
+                    }] : [{
+                        label: 'Тақырып бойынша тесттерді дайындау',
+                        value: 'Menu2_Child1_Content2_Quiz1',
+                        subList: []
+                    }] : [],
                     {
                         label: 'Кортеждер',
                         value: 'Menu2_Child1_Content3',
-                        subList: [
-                            ...user?._id? user?.supervisor? [{
-                                label: 'Тақырып бойынша білім тексеру',
-                                value: 'Menu2_Child1_Content3_Quiz1',
-                                subList: []
-                            }] : [{
-                                label: 'Тақырып бойынша тесттерді дайындау',
-                                value: 'Menu2_Child1_Content3_Quiz1',
-                                subList: []
-                            }] : []
-                        ]
+                        subList: []
                     },
+                    ...user?._id? user?.supervisor? [{
+                        label: 'Тақырып бойынша білім тексеру',
+                        value: 'Menu2_Child1_Content3_Quiz1',
+                        subList: []
+                    }] : [{
+                        label: 'Тақырып бойынша тесттерді дайындау',
+                        value: 'Menu2_Child1_Content3_Quiz1',
+                        subList: []
+                    }] : [],
                     {
                         label: 'Жиындар',
                         value: 'Menu2_Child1_Content4',
-                        subList: [
-                            ...user?._id? user?.supervisor? [{
-                                label: 'Тақырып бойынша білім тексеру',
-                                value: 'Menu2_Child1_Content4_Quiz1',
-                                subList: []
-                            }] : [{
-                                label: 'Тақырып бойынша тесттерді дайындау',
-                                value: 'Menu2_Child1_Content4_Quiz1',
-                                subList: []
-                            }] : []
-                        ]
+                        subList: []
                     },
+                    ...user?._id? user?.supervisor? [{
+                        label: 'Тақырып бойынша білім тексеру',
+                        value: 'Menu2_Child1_Content4_Quiz1',
+                        subList: []
+                    }] : [{
+                        label: 'Тақырып бойынша тесттерді дайындау',
+                        value: 'Menu2_Child1_Content4_Quiz1',
+                        subList: []
+                    }] : []
                 ]
             },
             {

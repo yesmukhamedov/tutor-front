@@ -63,18 +63,20 @@ const Quiz = (test) => {
   console.log({ state: state, test: test.test, quiz: quiz });
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>{formatTime(seconds)}</div>
-        <Button
-            // disabled={seconds>=600}
-          onClick={() => window.confirm("Тестті аяқтауды қалайсызба?") && dispatch(add(state.form))}
-            // console.log(quiz.items.length)
-            // console.log(state.form.list.reduce((count, item)=>item.ans.length? ++count : count, 0))
-            // console.log(quiz.items.length!==state.form.list.reduce((count, item)=>item.ans.length? ++count : count))
-        >
-          Жауаптарды жіберу
-        </Button>
-      </div>
+    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+    <Card size="small" style={{width: "80%", display: "flex", justifyContent: "space-between" }}>
+          <span>Тақырып бойынша білім тексеру {formatTime(seconds)}</span>
+          <Button
+              // disabled={seconds>=600}
+            onClick={() => window.confirm("Тестті аяқтауды қалайсызба?") && dispatch(add(state.form))}
+              // console.log(quiz.items.length)
+              // console.log(state.form.list.reduce((count, item)=>item.ans.length? ++count : count, 0))
+              // console.log(quiz.items.length!==state.form.list.reduce((count, item)=>item.ans.length? ++count : count))
+          >
+            Жауаптарды жіберу
+          </Button>
+    </Card>
+  </Space>
       <Space
         direction="vertical"
         size={16}
