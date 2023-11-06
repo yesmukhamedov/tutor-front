@@ -29,7 +29,7 @@ const Editor = (input="", output="") => {
     };
   
     return (
-      <>
+      <div className='editor'>
         <Row>
           <Col span={24}><button onClick={executeCode}>Выполнить</button></Col>
         </Row>
@@ -81,7 +81,7 @@ const Editor = (input="", output="") => {
             </div>
           </Col>
         </Row>
-      </>
+      </div>
     );
   }
 

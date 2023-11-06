@@ -3,23 +3,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { Col, Row, Input, Checkbox, Button, Space, Card } from "antd";
 import { EditOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 
-import { fetchCollection, add, update, remove, fetchQuiz } from "./redux/slices/tests.js";
-const Test = (test) => {
+import {
+  fetchCollection,
+  add,
+  update,
+  remove,
+  fetchQuiz,
+} from "./redux/slices/tests.js";
+const Test = contentValue => {
   const { TextArea } = Input;
   const { Meta } = Card;
 
   const dispatch = useDispatch();
-  const { collection } = useSelector((state) => state.tests);
-  const isCollectionLoading = collection.status === "loading";
+  const { collection, quiz } = useSelector((state) => state.tests);
 
   const initialForm = {
-    collectionName: test.test,
-    _id: null,
-    text: "",
-    options: [
-      { text: "", truth: false },
-      { text: "", truth: false },
-    ],
+    collectionForm: {
+      collectionName: test.test,
+      _id: null,
+      text: "",
+      options: [
+        { text: "", truth: false },
+        { text: "", truth: false },
+      ],
+    },
+    quizForm: {
+      collectionName: test.test,
+      list: quiz.items?.map((question) => ({ id: question._id, ans: [] })),
+    },
   };
 
   const [state, setState] = React.useState({ form: initialForm });
@@ -40,9 +51,13 @@ const Test = (test) => {
   console.log({ state: state, test: test.test });
   return (
     <>
-      <Space direction="vertical" size={16} style={{width:'80%', margin:'0 auto'}}>
+      <Space
+        direction="vertical"
+        size={16}
+        style={{ width: "80%", margin: "0 auto" }}
+      >
         <Card
-        style={{width:'100%'}}
+          style={{ width: "100%" }}
           title={
             <div>
               <TextArea
@@ -54,9 +69,25 @@ const Test = (test) => {
                   })
                 }
               />
-              <div style={{marginTop:10, display:'flex', flexDirection:'row-reverse', justifyContent:'space-between'}}>
+              <div
+                style={{
+                  marginTop: 10,
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Button
-                  disabled={!(state.form.collectionName && state.form.text && state.form.options?.reduce((truth, option)=>(option.truth || truth), false))}
+                  disabled={
+                    !(
+                      state.form.collectionName &&
+                      state.form.text &&
+                      state.form.options?.reduce(
+                        (truth, option) => option.truth || truth,
+                        false
+                      )
+                    )
+                  }
                   onClick={() => {
                     if (state.form._id) {
                       dispatch(update(state.form));
@@ -78,7 +109,7 @@ const Test = (test) => {
                         ...state.form,
                         options: [
                           ...state.form.options,
-                          { text: "", truth: false },
+                          { id: null, text: "", truth: false },
                         ],
                       },
                     })
@@ -91,7 +122,10 @@ const Test = (test) => {
           }
         >
           {state.form.options?.map((option, index) => (
-            <div style={{ display: "flex", gap:10, paddingTop:10 }} key={index}>
+            <div
+              style={{ display: "flex", gap: 10, paddingTop: 10 }}
+              key={index}
+            >
               <Checkbox
                 checked={option.truth}
                 onChange={(e) =>
@@ -163,7 +197,14 @@ const Test = (test) => {
           <Card
             style={{ marginTop: 16 }}
             key={index}
-            title={<div style={{ marginLeft: 14 }} dangerouslySetInnerHTML={{ __html: index + 1 + ") " + item.text }}/>}
+            title={
+              <div
+                style={{ marginLeft: 14 }}
+                dangerouslySetInnerHTML={{
+                  __html: index + 1 + ") " + item.text,
+                }}
+              />
+            }
             extra={
               <div style={{ display: "flex" }}>
                 <Button
@@ -175,7 +216,11 @@ const Test = (test) => {
                         ...state.form,
                         _id: item._id,
                         text: item.text,
-                        options: item.options.map(option=>({_id: option._id, text: option.text, truth: option.truth})),
+                        options: item.options.map((option) => ({
+                          _id: option._id,
+                          text: option.text,
+                          truth: option.truth,
+                        })),
                       },
                     })
                   }
@@ -192,7 +237,7 @@ const Test = (test) => {
                   Өшіру
                 </Button>
               </div>
-            } 
+            }
           >
             <Meta
               description={
@@ -202,7 +247,10 @@ const Test = (test) => {
                       key={index}
                       style={{ color: option.truth ? "green" : "" }}
                     >
-                      <div style={{ marginLeft: 14 }} dangerouslySetInnerHTML={{ __html: option.text }}/>
+                      <div
+                        style={{ marginLeft: 14 }}
+                        dangerouslySetInnerHTML={{ __html: option.text }}
+                      />
                     </li>
                   ))}
                 </ul>

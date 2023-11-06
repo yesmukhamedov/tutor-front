@@ -30,6 +30,7 @@ import {
   Tag,
   Image,
   Space,
+  Segmented
 } from "antd";
 
 import Multimedia, { list } from "./content";
@@ -56,6 +57,7 @@ function App({ ...props }) {
   React.useEffect(() => {
     user?.token && window.localStorage.setItem("token", user.token);
   }, [user]);
+
   React.useEffect(() => {
     setState({
       ...state,
@@ -65,6 +67,7 @@ function App({ ...props }) {
 
   const [state, setState] = React.useState({
     user: {
+      type: 'Оқытушы',
       theme: "light",
       ...user,
     },
@@ -269,6 +272,9 @@ function App({ ...props }) {
                   onClose={() => drawer("register")}
                   visible={state.drawer.register}
                 >
+                  <div style={{width: '100%', display: 'flex'}}>
+                    <Segmented width={'100%'} options={['Оқытушы', 'Оқушы']} value={state.user.type} onChange={value=>setState({...state, user: {...state.user, type: value}})} />
+                  </div>
                   <Form
                     name="basic"
                     labelCol={{
@@ -315,7 +321,7 @@ function App({ ...props }) {
                         }
                       />
                     </Form.Item>
-                    <Form.Item
+                    {state.user.type==='Оқушы'? <Form.Item
                       label="Мұғалім коды"
                       name="supervisorId"
                       rules={[
@@ -330,7 +336,7 @@ function App({ ...props }) {
                           setForm("register", "supervisorId", e.target.value)
                         }
                       />
-                    </Form.Item>
+                    </Form.Item> : null}
                     <Form.Item
                       label="Құпия сөз"
                       name="password"

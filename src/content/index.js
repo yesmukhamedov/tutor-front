@@ -113,7 +113,7 @@ export const list = user => [
                         subList: []
                     }] : [{
                         label: 'Тақырып бойынша тесттерді дайындау',
-                        value: 'Menu1_Child1_Content1_Quiz1',
+                        value: 'Menu1_Child4_Content1_Quiz1',
                         subList: []
                     }] : []
                 ]

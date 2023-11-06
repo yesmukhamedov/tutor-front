@@ -5,6 +5,7 @@ import { EditOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 
 import {
   fetchCollection,
+  check,
   add,
   update,
   remove,
@@ -19,7 +20,7 @@ const Quiz = (test) => {
 
   const initialForm = {
     collectionName: test.test,
-    list: quiz.items?.map((question) => ({ id: question._id, ans: [] })),
+    questions: quiz.items?.map((question) => ({ _id: question._id, ans: [] })),
   };
 
   const [state, setState] = React.useState({ form: initialForm });
@@ -36,7 +37,7 @@ const Quiz = (test) => {
   React.useEffect(() => {
     state.form.collectionName &&
       dispatch(
-        fetchQuiz({ collectionName: state.form.collectionName, count: 10 })
+        fetchQuiz({ collectionName: state.form.collectionName, count: 5 })
       );
   }, [state.form.collectionName]);
 
@@ -63,20 +64,30 @@ const Quiz = (test) => {
   console.log({ state: state, test: test.test, quiz: quiz });
   return (
     <>
-    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-    <Card size="small" style={{width: "80%", display: "flex", justifyContent: "space-between" }}>
-          <span>Тақырып бойынша білім тексеру {formatTime(seconds)}</span>
+      <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+        <Card
+          size="small"
+          style={{
+            width: "80%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* <span>Тақырып бойынша білім тексеру {formatTime(seconds)}</span> */}
           <Button
-              // disabled={seconds>=600}
-            onClick={() => window.confirm("Тестті аяқтауды қалайсызба?") && dispatch(add(state.form))}
-              // console.log(quiz.items.length)
-              // console.log(state.form.list.reduce((count, item)=>item.ans.length? ++count : count, 0))
-              // console.log(quiz.items.length!==state.form.list.reduce((count, item)=>item.ans.length? ++count : count))
+            // disabled={seconds>=600}
+            onClick={() =>
+              window.confirm("Тестті аяқтауды қалайсызба?") &&
+              dispatch(check(state.form))
+            }
+            // console.log(quiz.items.length)
+            // console.log(state.form.questions.reduce((count, item)=>item.ans.length? ++count : count, 0))
+            // console.log(quiz.items.length!==state.form.questions.reduce((count, item)=>item.ans.length? ++count : count))
           >
             Жауаптарды жіберу
           </Button>
-    </Card>
-  </Space>
+        </Card>
+      </Space>
       <Space
         direction="vertical"
         size={16}
@@ -86,7 +97,14 @@ const Quiz = (test) => {
           <Card
             style={{ marginTop: 16 }}
             key={index}
-            title={index + 1 + ") " + item.text}
+            title={
+              <div
+                style={{ marginLeft: 14 }}
+                dangerouslySetInnerHTML={{
+                  __html: index + 1 + ") " + item.text,
+                }}
+              />
+            }
           >
             <Meta
               description={
@@ -94,16 +112,16 @@ const Quiz = (test) => {
                   {item.options.map((option, index) => (
                     <div style={{ display: "flex" }} key={index}>
                       <Checkbox
-                        checked={state.form.list
-                          .find((form) => form.id === item._id)
+                        checked={state.form.questions
+                          .find((form) => form._id === item._id)
                           ?.ans.includes(option.text)}
                         onChange={(e) =>
                           setState({
                             ...state,
                             form: {
                               ...state.form,
-                              list: state.form.list?.map((form) =>
-                                form.id === item._id
+                              questions: state.form.questions?.map((form) =>
+                                form._id === item._id
                                   ? form.ans.includes(option.text)
                                     ? {
                                         ...form,
@@ -121,7 +139,10 @@ const Quiz = (test) => {
                           })
                         }
                       />
-                      <span style={{ marginLeft: 14 }}>{option.text}</span>
+                      <div
+                        style={{ marginLeft: 14 }}
+                        dangerouslySetInnerHTML={{ __html: option.text }}
+                      />
                     </div>
                   ))}
                 </>
