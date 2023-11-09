@@ -30,12 +30,11 @@ import {
   Tag,
   Image,
   Space,
-  Segmented
+  Segmented,
 } from "antd";
 
 import Multimedia, { list } from "./content";
 import "./style.css";
-import { fetchQuiz } from "./redux/slices/tests";
 import { login, logout, register, authMe } from "./redux/slices/auth";
 const { Sider, Content, Header, Footer } = Layout;
 const { Step } = Steps;
@@ -45,8 +44,7 @@ function App({ ...props }) {
   const {} = useParams();
   const dispatch = useDispatch();
 
-  const { quiz, user } = useSelector((state) => ({
-    quiz: state.tests.quiz,
+  const { user } = useSelector((state) => ({
     user: state.auth.user,
   }));
 
@@ -67,7 +65,7 @@ function App({ ...props }) {
 
   const [state, setState] = React.useState({
     user: {
-      type: 'Оқытушы',
+      type: "Оқытушы",
       theme: "light",
       ...user,
     },
@@ -101,20 +99,51 @@ function App({ ...props }) {
   }
 
   const menu = (list) =>
-    list.map((listElement) =>
-      listElement.subList?.length ? (
-        <Menu.SubMenu
-          key={listElement.value}
-          title={<span>{listElement.label}</span>}
-        >
-          {menu(listElement.subList)}
-        </Menu.SubMenu>
-      ) : (
-        <Menu.Item key={listElement.value}>
-          <span>{listElement.label}</span>
-        </Menu.Item>
-      )
-    );
+    list
+      .filter((m) => (user?.token ? true : !m.value.includes("Quiz")))
+      .map((listElement) =>
+        listElement.subList?.length ? (
+          <Menu.SubMenu
+            key={listElement.value}
+            title={<span>{listElement.label}</span>}
+          >
+            {menu(listElement.subList)}
+          </Menu.SubMenu>
+        ) : (
+          <Menu.Item key={listElement.value}>
+            <span>{listElement.label}</span>
+          </Menu.Item>
+        )
+      );
+
+    const senu = (list) =>
+      list
+        .filter((listElement) =>
+          user?._id ? true : !listElement.value.includes("Quiz")
+        )
+        .map((listElement) =>
+          listElement.subList?.length ? (
+            <Menu.SubMenu
+              key={listElement.value}
+              title={<span>{listElement.label}</span>}
+            >
+              {senu(listElement.subList)}
+            </Menu.SubMenu>
+          ) : (
+            <Menu.Item key={listElement.value}>
+              <span>{listElement.label}</span>
+            </Menu.Item>
+          )
+        );
+  //     const textt = list =>
+  //     list
+  //       .filter((m) => (user?.token ? true : !m.value.includes("Quiz")))
+  //       .map((listElement) =>
+  //         listElement.subList?.length
+  //           ? `"->listElement.label" ${menu(listElement.subList)}`
+  //           : listElement.label
+  //       );
+  // console.log(textt(list));
 
   const title = (list) =>
     list.map((lit) =>
@@ -134,6 +163,7 @@ function App({ ...props }) {
       },
     });
 
+    console.log(user)
   return (
     <>
       <div
@@ -272,8 +302,18 @@ function App({ ...props }) {
                   onClose={() => drawer("register")}
                   visible={state.drawer.register}
                 >
-                  <div style={{width: '100%', display: 'flex'}}>
-                    <Segmented width={'100%'} options={['Оқытушы', 'Оқушы']} value={state.user.type} onChange={value=>setState({...state, user: {...state.user, type: value}})} />
+                  <div style={{ width: "100%", display: "flex" }}>
+                    <Segmented
+                      width={"100%"}
+                      options={["Оқытушы", "Оқушы"]}
+                      value={state.user.type}
+                      onChange={(value) =>
+                        setState({
+                          ...state,
+                          user: { ...state.user, type: value },
+                        })
+                      }
+                    />
                   </div>
                   <Form
                     name="basic"
@@ -321,22 +361,24 @@ function App({ ...props }) {
                         }
                       />
                     </Form.Item>
-                    {state.user.type==='Оқушы'? <Form.Item
-                      label="Мұғалім коды"
-                      name="supervisorId"
-                      rules={[
-                        {
-                          required: false,
-                          // message: 'Өтініш, Мұғалім кодын көрсетіңіз!',
-                        },
-                      ]}
-                    >
-                      <Input
-                        onChange={(e) =>
-                          setForm("register", "supervisorId", e.target.value)
-                        }
-                      />
-                    </Form.Item> : null}
+                    {state.user.type === "Оқушы" ? (
+                      <Form.Item
+                        label="Мұғалім коды"
+                        name="supervisorId"
+                        rules={[
+                          {
+                            required: false,
+                            // message: 'Өтініш, Мұғалім кодын көрсетіңіз!',
+                          },
+                        ]}
+                      >
+                        <Input
+                          onChange={(e) =>
+                            setForm("register", "supervisorId", e.target.value)
+                          }
+                        />
+                      </Form.Item>
+                    ) : null}
                     <Form.Item
                       label="Құпия сөз"
                       name="password"
@@ -419,7 +461,7 @@ function App({ ...props }) {
             mode="inline"
             defaultOpenKeys={["Menu1_Child0_Content0", "Menu2_Child0_Content0"]}
           >
-            {menu(list(state.user))}
+            {senu(list)}
           </Menu>
         </Sider>
         <Layout>
@@ -429,7 +471,7 @@ function App({ ...props }) {
               paddingLeft: 42,
             }}
           >
-            {title(list(state.user))}
+            {title(list)}
           </Header>
           <div>
             <Content

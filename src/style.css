@@ -77,3 +77,12 @@
     align-items: center;
     margin-top:-7px;
 }
+.ant-card-body{
+    width: 100% !important;
+}
+.quizHead{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

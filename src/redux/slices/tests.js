@@ -2,19 +2,34 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchQuiz = createAsyncThunk(
-  "quiz/fetchQuiz",
+  "quiz/:collectionName/:count",
   async (params) =>
     await axios.get(`/quiz/${params.collectionName}/${params.count}`)
 );
 
 export const fetchCollection = createAsyncThunk(
-  "collection/fetchCollection",
+  "collection/:collectionName",
   async (collectionName) => await axios.get(`collection/${collectionName}`)
 );
 
 export const check = createAsyncThunk(
   "/quiz/checking",
   async (form) => await axios.post(`/quiz/checking`, form).data
+);
+
+export const fetchResult = createAsyncThunk(
+  "/result/:collectionName",
+  async ({collectionName, _id}) => 
+    await axios.get(`/result/${_id}/${collectionName}`));
+
+export const progress = createAsyncThunk(
+  "/progress/:_id",
+  async (_id) => await axios.get(`/progress/${_id}`)
+);
+
+export const fetchResults = createAsyncThunk(
+  "/results/:collectionName",
+  async ({collectionName, _id}) => await axios.get(`/results/${_id}/${collectionName}`)
 );
 
 export const add = createAsyncThunk(
@@ -42,6 +57,14 @@ const initialState = {
     status: "loading",
   },
   result: {
+    items: [],
+    status: "loading",
+  },
+  progress: {
+    items: [],
+    status: "loading",
+  },
+  results: {
     items: [],
     status: "loading",
   },
@@ -76,6 +99,54 @@ const testsSlice = createSlice({
     },
     [fetchCollection.rejected]: (state) => {
       state.collection = {
+        items: [],
+        status: "error",
+      };
+    },
+    [fetchResult.pending]: (state) => {
+      state.result.items = state.result.items;
+      state.result.status = "loading";
+    },
+    [fetchResult.fulfilled]: (state, action) => {
+      state.result = {
+        items: action.payload.data,
+        status: "loaded",
+      };
+    },
+    [fetchResult.rejected]: (state) => {
+      state.result = {
+        items: [],
+        status: "error",
+      };
+    },
+    [progress.pending]: (state) => {
+      state.progress.items = state.progress.items;
+      state.progress.status = "loading";
+    },
+    [progress.fulfilled]: (state, action) => {
+      state.progress = {
+        items: action.payload.data,
+        status: "loaded",
+      };
+    },
+    [progress.rejected]: (state) => {
+      state.progress = {
+        items: [],
+        status: "error",
+      };
+    },
+    [fetchResults.pending]: (state) => {
+      state.results.items = state.results.items;
+      state.results.status = "loading";
+    },
+    [fetchResults.fulfilled]: (state, action) => {
+      state.results = {
+        items: action.payload.data,
+        status: "loaded",
+      };
+    },
+    [fetchResults.rejected]: (state) => {
+      state.results = {
         items: [],
         status: "error",
       };
