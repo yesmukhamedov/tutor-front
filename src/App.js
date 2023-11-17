@@ -35,7 +35,7 @@ import {
 
 import Multimedia, { list } from "./content";
 import "./style.css";
-import { login, logout, register, authMe } from "./redux/slices/auth";
+import { login, logout, register, authMe, setTheme } from "./redux/slices/auth";
 const { Sider, Content, Header, Footer } = Layout;
 const { Step } = Steps;
 const { Option } = Select;
@@ -63,6 +63,12 @@ function App({ ...props }) {
     });
   }, [user]);
 
+  React.useEffect(() => {
+    if(user?._id && user?.theme){
+      dispatch(setTheme({ _id: user._id, theme: user.theme }));
+    }
+  }, [user?.theme]);
+
   const [state, setState] = React.useState({
     user: {
       type: "Оқытушы",
@@ -89,7 +95,7 @@ function App({ ...props }) {
     },
   });
 
-  console.log("state=>", state);
+  console.log({ state, user });
 
   function drawer(element) {
     setState({
@@ -116,25 +122,25 @@ function App({ ...props }) {
         )
       );
 
-    const senu = (list) =>
-      list
-        .filter((listElement) =>
-          user?._id ? true : !listElement.value.includes("Quiz")
+  const senu = (list) =>
+    list
+      .filter((listElement) =>
+        user?._id ? true : !listElement.value.includes("Quiz")
+      )
+      .map((listElement) =>
+        listElement.subList?.length ? (
+          <Menu.SubMenu
+            key={listElement.value}
+            title={<span>{listElement.label}</span>}
+          >
+            {senu(listElement.subList)}
+          </Menu.SubMenu>
+        ) : (
+          <Menu.Item key={listElement.value}>
+            <span>{listElement.label}</span>
+          </Menu.Item>
         )
-        .map((listElement) =>
-          listElement.subList?.length ? (
-            <Menu.SubMenu
-              key={listElement.value}
-              title={<span>{listElement.label}</span>}
-            >
-              {senu(listElement.subList)}
-            </Menu.SubMenu>
-          ) : (
-            <Menu.Item key={listElement.value}>
-              <span>{listElement.label}</span>
-            </Menu.Item>
-          )
-        );
+      );
   //     const textt = list =>
   //     list
   //       .filter((m) => (user?.token ? true : !m.value.includes("Quiz")))
@@ -163,7 +169,6 @@ function App({ ...props }) {
       },
     });
 
-    console.log(user)
   return (
     <>
       <div

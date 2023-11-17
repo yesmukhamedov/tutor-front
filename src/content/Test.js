@@ -35,7 +35,7 @@ const Test = ({ content }) => {
       ],
     },
     quizForm: {
-      _id: user?._id,
+      id: user?._id,
       collectionName: content,
       questions: [],
     },
@@ -76,31 +76,34 @@ const Test = ({ content }) => {
   }, [quiz]);
 
   React.useEffect(() => {
-    if ((!!content, !!user?.supervisor?._id)) {
-      dispatch(fetchResult({ collectionName: content, _id: user._id }));
-    }
-  }, [content, user?._id]);
-
-  React.useEffect(() => {
     if (!user?.supervisor?._id && state.form.collectionForm?.collectionName) {
       dispatch(fetchCollection(state.form.collectionForm.collectionName));
     }
   }, [state.form.collectionForm?.collectionName]);
 
   React.useEffect(() => {
-    if (
-      user?.supervisor?._id &&
-      state.form.quizForm?.collectionName
-      // && !!result.items.length
-    ) {
-      dispatch(
-        fetchQuiz({
-          collectionName: state.form.quizForm.collectionName,
-          count: 5,
+    if ((!!content, !!user?.supervisor?._id)) {
+      dispatch(fetchResult({ collectionName: content, _id: user._id }))
+        .then((res) => {
+          if (!res.payload?.data.questions?.length) {
+            dispatch(
+              fetchQuiz({
+                collectionName: state.form.quizForm.collectionName,
+                count: 5,
+              })
+            );
+          }
         })
-      );
+        .catch(() =>
+          dispatch(
+            fetchQuiz({
+              collectionName: state.form.quizForm.collectionName,
+              count: 5,
+            })
+          )
+        );
     }
-  }, [user?.supervisor?._id, state.form.quizForm?.collectionName]);
+  }, [content, user?._id]);
 
   const [seconds, setSeconds] = useState(1800);
   React.useEffect(() => {
@@ -130,9 +133,9 @@ const Test = ({ content }) => {
         style={{ width: "80%", margin: "0 auto" }}
       >
         {!!user?.supervisor?._id ? (
-          !!result.items.length ? (
+          !!result.items.questions?.length ? (
             <>
-              {result.items?.map((item, index) => (
+              {result.items.questions?.map((item, index) => (
                 <Card
                   style={{ marginTop: 16 }}
                   key={index}
@@ -151,7 +154,9 @@ const Test = ({ content }) => {
                         {item.options.map((option, index) => (
                           <li
                             key={index}
-                            style={{ color: option.result ? "green" : "" }}
+                            style={{
+                              color: option.truth? "green" : option.answer? "red" : "",
+                            }}
                           >
                             <div
                               style={{ marginLeft: 14 }}
@@ -170,28 +175,45 @@ const Test = ({ content }) => {
               <Card
                 size="small"
                 style={{
-                  // width: "80%",
                   display: "flex",
                   justifyContent: "space-between",
                 }}
               >
                 <div className="quizHead">
                   <div>Тақырып бойынша білім тексеру </div>
-                  <div>
-                    {`${String(Math.floor(seconds / 60)).padStart(
+                  <div style={{ color: seconds < 300 ? "red" : "blue" }}>
+                    <b>{`${String(Math.floor(seconds / 60)).padStart(
                       2,
                       "0"
-                    )}:${String(seconds % 60).padStart(2, "0")}`}
+                    )}:${String(seconds % 60).padStart(2, "0")}`}</b>
                   </div>
                   <Button
-                    // disabled={seconds>=600}
-                    onClick={() =>
-                      window.confirm("Тестті аяқтауды қалайсызба?") &&
-                      dispatch(check(state.form.quizForm))
+                    disabled={
+                      !state.form.quizForm.questions.reduce(
+                        (checked, question) =>
+                          !!question.answers.length && checked,
+                        true
+                      )
                     }
-                    // console.log(quiz.items.length)
-                    // console.log(state.form.questions.reduce((count, item)=>item.ans.length? ++count : count, 0))
-                    // console.log(quiz.items.length!==state.form.questions.reduce((count, item)=>item.ans.length? ++count : count))
+                    onClick={() => {
+                      if (window.confirm("Тестті аяқтауды қалайсызба?")) {
+                        dispatch(check(state.form.quizForm))
+                          .then(
+                            dispatch(
+                              fetchResult({
+                                collectionName: content,
+                                _id: user._id,
+                              })
+                            )
+                          )
+                          .catch((error) => {
+                            console.error(
+                              "Тестті аяқтау Promise орындалмады",
+                              error
+                            );
+                          });
+                      }
+                    }}
                   >
                     Жауаптарды жіберу
                   </Button>

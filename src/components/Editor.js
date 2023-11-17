@@ -1,88 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Row } from 'antd';
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/theme-tomorrow';
-import Brython from 'brython';
-import '../style.css';
+import React, { useState } from "react";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-tomorrow";
 
-const Editor = (input="", output="") => {
-  const [state, setState] = React.useState({
-    code: {
-      input: input,
-      output: output
+const Editor = ({inputInitial, outputInitial}) => {
+  const [code, setCode] = useState(inputInitial);
+  const [output, setOutput] = useState(outputInitial);
+
+  const handleCodeChange = (newCode) => {
+    setCode(newCode);
+  };
+
+  const onExecuteCode = () => {
+    try {
+      // Здесь мы симулируем выполнение Python кода. В реальной ситуации,
+      // вы бы использовали Brython или другой подход для выполнения Python кода.
+      // Например, Brython будет выполнять код и выводить результат в элемент `output`.
+      // Это лишь заглушка для демонстрации.
+      setOutput("Результат выполнения кода");
+    } catch (err) {
+      setOutput("Ошибка при выполнении кода: " + err.message);
     }
-  })
-  
-    // useEffect(() => {
-    //   Brython.run_script();
-    // }, []);
-  
-    const executeCode = () => {
-      setState({...state, code: {...state.code, output: ''}});
-      try {
-        Brython.run_script(state.code.input);
-      } catch (error) {
-        setState({...state, code: {...state.code, output: `Қате: ${error}`}});
-      }
-    };
-  
-    return (
-      <div className='editor'>
-        <Row>
-          <Col span={24}><button onClick={executeCode}>Выполнить</button></Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <AceEditor
-              mode="python"
-              theme="tomorrow"
-              value={""} //state.code.input
-              onChange={(newCode) => setState({...state, code: {...state.code, input: newCode}})}
-              style={{ height: '300px', width: '100%' }}
-              fontSize={14}
-              highlightActiveLine={true}
-              showPrintMargin={true}
-              showGutter={true}
-              className='editor'
-              setOptions={{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 1
-              }}
-            />
-          </Col>
-          <Col span={12}>
-        <div>
-          <h3>Вывод:</h3>
-          <AceEditor
-                mode="python"
-                theme="tomorrow"
-                value={""} //state.code.output 
-                readOnly
-                style={{ height: '300px', width: '100%' }}
-                fontSize={14}
-                highlightActiveLine={true}
-                showPrintMargin={true}
-                showGutter={true}
-                className='editor'
-                setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                  enableSnippets: true,
-                  showLineNumbers: true,
-                  tabSize: 1
-                }}
-              />
-              {/* <pre>{output}</pre> */}
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+  };
 
-  export default Editor;
+  const onClearOutput = () => {
+    setOutput("");
+  };
+
+  return (
+    <div className="editor" style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+      <div className="editor" style={{ width: "50%" }}>
+        <AceEditor
+          mode="python"
+          theme="monokai"
+          name="code-editor"
+          value={code}
+          onChange={handleCodeChange}
+          editorProps={{ $blockScrolling: true }}
+          setOptions={{
+            wrap: true,
+            showLineNumbers: true,
+            tabSize: 2,
+          }}
+          style={{ width: "100%", height: "100%" }}
+        />
+        <button
+          onClick={onExecuteCode}
+          style={{ position: "absolute", right: 0, top: 0 }}
+        >
+          Выполнить
+        </button>
+      </div>
+      <div className="editor" style={{ width: "50%", borderLeft: "1px solid grey" }}>
+        <div className="editor" style={{ position: "relative", width: "100%", height: "100%" }}>
+          <button
+            onClick={onClearOutput}
+            style={{ position: "absolute", right: 0, top: 0 }}
+          >
+            Очистить
+          </button>
+          <AceEditor
+            mode="python"
+            theme="monokai"
+            name="code-editor"
+            value={code}
+            readOnly
+            editorProps={{ $blockScrolling: true }}
+            setOptions={{
+              wrap: true,
+              showLineNumbers: true,
+              tabSize: 2,
+            }}
+            style={{ width: "100%", height: "100%" }}
+          />
+          <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+            {output}
+          </pre>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Editor;
