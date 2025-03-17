@@ -613,7 +613,8 @@ function App({ ...props }) {
               LinkedIn
             </Tag>
             <br />
-            Almaty ©2022 Created by Yeskendyr
+            Abay University, Almaty ©{new Date().getFullYear()} Created by Shakharbanu
+            {/* Almaty ©2022 Created by Yeskendyr */}
           </Footer>
         </Layout>
       </Layout>
